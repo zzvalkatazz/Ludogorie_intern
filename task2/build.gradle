@@ -1,7 +1,10 @@
+
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '4.0.2'
 	id 'io.spring.dependency-management' version '1.1.7'
+    id "org.sonarqube" version "5.0.0.4638"
+
 }
 
 group = 'com.example'
@@ -26,7 +29,6 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-webmvc'
 	implementation 'org.flywaydb:flyway-database-postgresql'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
-    implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 
     runtimeOnly 'org.postgresql:postgresql'
@@ -40,3 +42,5 @@ dependencies {
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
