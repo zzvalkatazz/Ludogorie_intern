@@ -3,9 +3,9 @@ name: CI
 
 on:
   push:
-    branches: ["**"]
+    branches: [ "**" ]
   pull_request:
-    branches: ["**"]
+    branches: [ "**" ]
 
 jobs:
   build:
@@ -14,15 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Show repo root files (debug)
-        run: |
-          pwd
-          ls -la
-          echo "Searching for gradlew..."
-          find . -maxdepth 6 -name gradlew -type f -print
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -31,19 +22,8 @@ jobs:
           java-version: "17"
           cache: gradle
 
-      - name: Build with Gradle Wrapper (auto-detect)
-        run: |
-          GRADLEW_PATH="$(find . -maxdepth 6 -name gradlew -type f | head -n 1)"
-          if [ -z "$GRADLEW_PATH" ]; then
-            echo "ERROR: gradlew not found in repository!"
-            exit 1
-          fi
+      - name: Make gradlew executable
+        run: chmod +x ./gradlew
 
-          echo "Using gradlew at: $GRADLEW_PATH"
-          chmod +x "$GRADLEW_PATH"
-
-          PROJECT_DIR="$(dirname "$GRADLEW_PATH")"
-          echo "Running build in: $PROJECT_DIR"
-          cd "$PROJECT_DIR"
-
-          ./gradlew clean build
+      - name: Build
+        run: ./gradlew clean build
