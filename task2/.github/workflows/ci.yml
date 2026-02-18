@@ -2,19 +2,23 @@ name: CI
 
 on:
   push:
-    branches:
-      - "**"
+    branches: ["**"]
   pull_request:
-    branches:
-      - "**"
+    branches: ["**"]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
+    defaults:
+      run:
+        working-directory: task2
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -24,8 +28,8 @@ jobs:
           cache: gradle
 
       - name: Make gradlew executable
-        run: chmod +x demo/gradlew
+        run: chmod +x ./gradlew
 
       - name: Build
-        run: cd demo && ./gradlew clean build
+        run: ./gradlew clean build
 
